@@ -1,0 +1,13 @@
+.DS_Store
+.env
+.env.*
+.venv/
+__pycache__/
+*.py[cod]
+projects/
+media/
+evidence/
+samples/
+本轮成果-*/
+openclaw-workspace/
+wheelhouse/

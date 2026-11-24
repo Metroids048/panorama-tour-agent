@@ -1,0 +1,172 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>全景导览工作台</title><link rel="icon" href="data:,"><link rel="stylesheet" href="/pannellum.css"><link rel="stylesheet" href="/viewer.css">
+<link rel="stylesheet" href="/workbench.css"></head>
+<body>
+<header class="workbench-header">
+  <a class="brand" href="/" aria-label="全景导览工作台首页">
+    <svg aria-hidden="true" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12"/><path d="m20.5 11.5-2.4 6.6-6.6 2.4 2.4-6.6zM16 4v3m0 18v3M4 16h3m18 0h3"/></svg>
+    <span>全景导览</span>
+  </a>
+  <div class="header-actions"><a href="#capture-guide" id="show-capture">拍摄与上传指南</a><button type="button" id="show-history">历史任务</button></div>
+</header>
+<main id="home" class="body" hidden>
+  <section class="home-lead" aria-labelledby="home-title">
+    <div>
+      <h1 id="home-title">先走一遍，<br>再发给访客。</h1>
+      <p class="muted">把同一场地各个位置的照片发来，告诉我从哪里开始、希望访客去哪里；想让他们自由选房间、逛场馆也可以。先核对实景和通道，再做成能拖着环顾、点箭头换站的导览。</p>
+      <div class="row home-actions">
+        <a id="start-agent" class="action primary-action" href="#capture-guide">开始制作</a>
+        <a class="action" href="/sample/visitor-tour.html" target="_blank" rel="noopener">试走示例</a>
+      </div>
+      <p class="home-note muted">先选照片情况，再到制作聊天上传。成品可先试走；想换入口、调整顺序或修正箭头，告诉我是哪一站。离线 HTML 下载后用电脑浏览器打开。</p>
+    </div>
+  </section>
+  <details id="capture-guide" class="capture-guide">
+    <summary><span>从你现在的照片开始</span><span class="muted">还没拍、只拍了一部分，都能开始</span></summary>
+    <div class="capture-body">
+      <div class="capture-plan">
+        <h2>先做好一站，再连成导览。</h2>
+        <p class="muted">不用先买全景相机，也不用一次拍完整条路。先告诉我照片准备到哪一步。</p>
+        <fieldset class="capture-states"><legend>你现在有什么照片？</legend>
+          <label><input type="radio" name="capture-state" value="new" checked>还没拍，不知道怎么拍</label>
+          <label><input type="radio" name="capture-state" value="partial">已经拍了一部分</label>
+          <label><input type="radio" name="capture-state" value="sphere">已有完整 360° 全景图</label>
+        </fieldset>
+        <div class="capture-options">
+        <label for="capture-kind">这次给访客看什么</label>
+        <select id="capture-kind"><option value="walk">固定路线 · 从入口走到目的地</option><option value="venue">场馆 · 自由选展区</option><option value="campus">校园 · 新生辨入口与岔路</option></select>
+        <label for="capture-start">起点或场馆入口<input id="capture-start" type="text" maxlength="80" placeholder="例如：北门内侧"></label>
+        <label for="capture-end">目的地或主要看点<input id="capture-end" type="text" maxlength="80" placeholder="例如：一楼服务台"></label>
+        <div class="capture-handoff"><label for="capture-message">带到制作聊天的需求</label><textarea id="capture-message" rows="5" readonly></textarea>
+        <div class="row"><button type="button" id="capture-copy">复制需求</button><a id="capture-chat" class="action primary-action" target="_blank" rel="noopener">打开制作聊天 ↗</a></div>
+        <p class="muted">复制后在新聊天里粘贴发送，再上传照片。聊天不会自动发送这段需求。</p></div>
+        <button type="button" id="capture-download">下载拍摄清单</button>
+        <p id="capture-status" role="status" class="muted"></p>
+      </div>
+      </div>
+      <div class="capture-instructions">
+        <section id="capture-new" class="capture-step">
+          <p class="eyebrow">现在只做这一件事</p><h3>先拍入口这一站，发来看看。</h3>
+          <ol><li><strong>站在能看到入口标牌和通道的位置。</strong>拍完这一站再移动；不要边走边拍。</li>
+          <li><strong>手机横拿，站定转身拍一圈。</strong>用正常主摄或常见广角，让相邻两张重复约三分之一，最后一张也接回第一张。通常是一圈十几张，按覆盖来拍，不用凑张数。</li>
+          <li><strong>放大检查，再发原图。</strong>门牌能读清、通道没被人挡住、画面不糊。先用这一站确认效果，再按实际路线补其他站。</li></ol>
+          <p class="capture-limit">手机系统的长条“全景”往往只覆盖一部分；能先做局部看景，不等于完整 360° 球面。</p>
+        </section>
+        <section id="capture-partial" class="capture-step" hidden>
+          <p class="eyebrow">现有照片先用起来</p><h3>先发已经拍到的，不用全部重拍。</h3>
+          <ol><li><strong>同一位置的照片放在一组。</strong>比如“入口3张”“前台2张”；边走边拍的照片不要混成一站。</li>
+          <li><strong>标一下你最想让访客找到哪里。</strong>已知去回通道也写清，例如“入口 ↔ 前台”。不确定的方向直接说不知道。</li>
+          <li><strong>先看你的实景草稿。</strong>根据实际画面，只补缺的那一站或那个方向，已有可用照片和通道保留。</li></ol>
+          <p class="capture-limit">局部照片可以先看已拍范围；重叠不足会保留原照。缺来路、转弯或下一站时，该段导览仍待补齐。</p>
+        </section>
+        <section id="capture-sphere" class="capture-step" hidden>
+          <p class="eyebrow">可以直接开始编排</p><h3>每站一张原尺寸球面图。</h3>
+          <ol><li><strong>检查文件是不是完整一圈。</strong>应为 2:1 球面图，不是局部长条或截图。</li>
+          <li><strong>按实际地点命名。</strong>例如“01_入口”“02_前台”；补一句楼层、拍摄日期和哪些站能来回通行。</li>
+          <li><strong>上传原图或分组 ZIP。</strong>有位置图也可一起附上；没有图仍能先制作。</li></ol>
+        </section>
+        <details class="capture-more"><summary>路线怎么选站？照片怎样才够用？</summary>
+        <h3>这次路线的重点</h3><p id="capture-scenario"></p>
+        <h3>优先上传完整的 360° 全景</h3>
+        <p>用全景相机或支持球面导出的设备，每站导出一张完整的 2:1 等距柱状图，建议 6000 × 3000 像素或以上，单张不超过 32 MB。保留原尺寸 JPG；不要用聊天截图、局部长条或放大后的低清图代替。</p>
+        <h3>到每一站，检查四周和来路</h3>
+        <ol>
+          <li><strong>站定再拍。</strong>同一位置、同一高度转身；手机用正常主摄或常见广角，横拍，锁定曝光，相邻画面重叠约三分之一，整圈首尾也要重叠。</li>
+          <li><strong>让人认得出。</strong>拍清门牌、地标和通道；转弯与遮挡处加过渡站。到下一站后，回头拍到来路，去、回分别记录。</li>
+          <li><strong>离开前转一圈检查。</strong>看前后左右、头顶和地面，检查接缝、重影、歪斜、曝光与门牌清晰度。避开行人挡住通道的位置，镜头擦净，保持机位高度接近。</li>
+        </ol>
+        <h3>按站分组上传</h3>
+        <p>已有完整球面图：每站一张，保留原文件。普通照片：一站一个文件夹；不要把边走边拍的散图混成一个机位。</p>
+        <p class="capture-example">01_入口 / 02_转弯前 / 03_转弯后 / 04_目的地<br>另附路线说明：01 ↔ 02 ↔ 03 ↔ 04；写清楼层、地标、通路和拍摄日期。</p>
+        <h3>带一张位置图，访客更容易找到方向</h3>
+        <p>可附有权使用的楼层平面图、校园图或简图，在图上标出与文件名一致的站点编号。写清物理楼层、分区和入口；楼梯、电梯两端单独设站。不需要精确比例，但点位位置要由你确认。没有位置图，也可以按已确认通道显示路线示意。</p>
+        <p>在 OpenClaw 上传原图或 ZIP，并说清给谁看、从哪里到哪里、是否要往返。图片较多时按区域分批发到同一聊天，说明“补充到同一份导览”。先核对自己的实景草稿；缺图时只补对应站点，已有画面会保留。</p>
+        <p class="capture-limit">照片够不够，看入口、转弯、岔路、目的地及去回来路是否都能辨认，不按总张数判断。每份常规导览最多 32 站；地图可后补。</p>
+        </details>
+      </div>
+    </div>
+  </details>
+  <section class="recent" aria-labelledby="recent-heading">
+    <div class="recent-heading"><h2 id="recent-heading">最近的任务</h2><a href="/?history=1">查看全部</a></div>
+    <div id="recent-tasks" aria-live="polite"><p class="muted">正在读取已保存的任务…</p></div>
+  </section>
+</main>
+<section id="history" class="body" aria-label="历史任务" hidden>
+<div id="history-picker" class="panel">
+<h1>历史任务</h1><p class="muted">找回已保存的导览，按版本回看或下载。</p>
+<div class="history-tools">
+<label>结果类型 <select id="history-filter"><option value="all">全部记录</option><option value="full">全景导览 · 实景箭头</option><option value="fixed">实景步行路线</option><option value="compare">路线预览与拼接对照</option></select></label>
+<label>项目 <select id="history-project"></select></label>
+<label>版本 <select id="history-version"></select></label>
+<button type="button" id="history-refresh">刷新</button><span id="history-count" class="muted"></span>
+</div></div>
+<div id="history-feedback" hidden>
+  <p id="history-status" role="status" class="muted"></p>
+  <div class="row"><button type="button" id="history-retry" hidden>重试打开</button><a id="history-browse" href="/?history=1" hidden>查看所有历史任务</a></div>
+</div>
+<div id="history-detail"></div>
+</section>
+<main id="editor" class="body editor">
+<section class="workbench-intro" aria-label="开始制作">
+  <h1>空间预览工作台</h1>
+  <p class="muted">用实拍照片编排点位，沿画面中的箭头试走，再把离线导览发给访客。</p>
+</section>
+<section class="panel" aria-labelledby="edit-title">
+<h2 id="edit-title">照片与路线</h2>
+<p class="muted">每站从同一位置转身拍。相邻照片保留共同地标，环拍一圈时首尾也需重叠。</p>
+<form id="builder"><label>预览名称 <input type="text" id="title" maxlength="70" value="空间预览"></label>
+<label>打开时的入口 <select id="entry"><option value="">路线第一站</option></select></label><div id="inputs"></div>
+<div class="row"><button type="button" id="add">添加一站</button><button type="submit" class="primary" id="generate">生成空间预览</button></div>
+</form><p role="status" id="error"></p>
+<div class="utility" hidden>
+<h3>载入示例照片</h3>
+<div class="row"><button type="button" id="sample-street">洞穴五站</button><button type="button" id="sample-phone">室内手机照</button><button type="button" id="sample-cave">洞穴三站</button></div>
+</div>
+<div class="utility">
+<h3>按标识打开项目</h3>
+<label>项目标识 <input type="text" id="project-key" placeholder="保存后生成"></label>
+<label>版本（可留空） <input type="text" id="project-version"></label><button type="button" id="open-project">打开已保存项目</button>
+</div>
+</section>
+<section id="workbench-result" aria-label="空间预览结果">
+<div class="task-heading" id="task-heading" hidden><div><h1 id="task-title">导览任务</h1><p id="task-current" class="muted"></p></div><span id="task-version" class="version"></span></div>
+<div id="task-loading" class="panel" hidden>
+  <h1>打开导览任务</h1><p id="task-load-status" role="status">正在加载保存版的画面…</p>
+  <div class="row"><button type="button" id="task-retry" hidden>重试打开</button><a id="task-recovery" hidden>从保存版试走</a></div>
+</div>
+<section class="sample-card" id="empty" aria-labelledby="sample-title">
+  <div class="sample-description">
+    <h2 id="sample-title">试走三站导览</h2>
+    <p class="muted">转头找到通道，点箭头前往下一站，再原路返回。</p>
+    <a class="action primary-action" href="/sample/visitor-tour.html" target="_blank" rel="noopener">试走三站样例 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></a>
+  </div>
+</section>
+<p class="chat-note muted">也可以在 OpenClaw 上传照片，顺手说一句「给谁看、希望他找到哪里？」。</p>
+<div class="row toolbar" id="toolbar" hidden><button type="button" class="primary" id="export">下载可浏览网页</button></div>
+<div id="preview"></div>
+<section id="visitor-task" class="panel" hidden aria-label="导览任务">
+<span class="history-badge" id="task-grade"></span>
+<h2 id="task-next">下一步</h2>
+<p id="task-state" role="status"></p>
+<div class="row task-main-action"><a class="action primary-action" id="task-photo" target="_blank" rel="noopener" hidden>补这一张</a>
+<button class="primary" type="button" id="task-confirm"></button><button type="button" id="task-skip" hidden>暂时跳过</button>
+<button type="button" class="primary" id="task-save">保存并预览</button>
+<a class="action primary-action" id="task-refresh" hidden>打开最新版继续</a>
+<a class="action" id="task-preview">试走保存版</a></div>
+<a id="task-chat" target="_blank" rel="noopener" hidden>回到聊天</a>
+<details class="task-tools"><summary>调整本站开场、入口和保存记录</summary>
+<div class="row"><button type="button" id="task-opening">保存本站开场</button>
+<button type="button" id="task-entry">改路线入口</button>
+<button type="button" id="task-cancel" hidden>取消未保存修改</button>
+<button type="button" id="task-download">下载当前成品 HTML</button></div>
+<p class="row"><a id="task-latest">打开任务最新保存版</a><a id="task-previous" hidden>回看上一版</a></p></details>
+<details id="task-route-tools" class="task-tools" hidden><summary>调整已有箭头与站点浏览</summary></details>
+<details id="task-intake" class="task-tools" hidden><summary>逐件收件回执</summary><ul id="task-intake-files"></ul></details>
+</section>
+<section id="hotspot-editor" class="panel" hidden style="margin-top:12px">
+<h2>画面内路线箭头</h2><p id="hotspot-progress" class="muted"></p><div class="row" id="hotspot-actions"></div><p id="hotspot-status" role="status"></p>
+</section>
+<div id="review" class="panel" aria-label="预览检查"></div>
+</section>
+</main>
+<script src="/pannellum.js"></script><script src="/viewer.js"></script><script src="/editor.js"></script><script src="/history.js"></script></body></html>
